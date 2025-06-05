@@ -20,8 +20,14 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+
+        solidHitbox = new Rectangle();
+        solidHitbox.x = 8;
+        solidHitbox.y = 16;
+        solidHitbox.width = 32;
+        solidHitbox.height = 32;
 
         setDefaultValues();
         getPlayerImage();
@@ -89,15 +95,23 @@ public class Player extends Entity {
         }
 
         // Update player position
-        worldx += dx;
-        worldy += dy;
+
+
+        collisionOn = false;
+        gp.cChk.checkTile(this);
+
+        if (!collisionOn) {
+            worldx += dx;
+            worldy += dy;
+        }
 
         spriteCounter++;
+
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (spriteCounter > 10) {
                 if (spriteNum == 1) {
                     spriteNum = 2;
-                }else if (spriteNum == 2) {
+                } else if (spriteNum == 2) {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
@@ -139,7 +153,6 @@ public class Player extends Entity {
                 }
                 break;
         }
-
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
