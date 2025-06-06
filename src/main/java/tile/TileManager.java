@@ -42,7 +42,7 @@ public class TileManager {
         setup(2, "water00", true);
         setup(3, "earth", false);
         setup(4, "tree", true);
-        setup(5, "sand", false);
+        setup(5, "road00", false);
     }
     public void setup(int index, String imagePath, boolean collision) {
 
