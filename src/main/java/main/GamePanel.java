@@ -6,7 +6,6 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -24,6 +23,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxWorldRow = 50;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
+    public static boolean debug = true;
+    boolean debugging = false;
 
     int FPS = 60;
 
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     Sound music = new Sound();
     public CollisionChk cChk = new CollisionChk(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    public GUI gui = new GUI(this);
     Thread gameThread;
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[10];
@@ -96,6 +98,13 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {  player.update(); }
     public void paintComponent(Graphics g) {
 
+        //debug stuff
+        long drawstart = 0;
+        if (debug) {
+            drawstart = System.nanoTime();
+        }
+
+        //tile
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
@@ -109,6 +118,28 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         player.draw(g2);
+
+        gui.draw(g2);
+
+        //also debug sutff
+
+        if (debug) {
+            if (keyH.debugon) {
+                    debugging = true;
+            }else {
+                debugging = false;
+            }
+            if (debugging) {
+                long drawend = System.nanoTime();
+                long passed = drawend - drawstart;
+                g2.setColor(Color.white);
+                g2.drawString("Drawtime:" + passed, 10, 400);
+                System.out.println(passed);
+            }
+
+        }
+
+        //not debug anymore
 
         g2.dispose();
     }
