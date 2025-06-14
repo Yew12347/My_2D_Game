@@ -24,7 +24,7 @@ public class TileManager {
         mapTileNum = new int[gp.maxWorldRow][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("/assets/maps/map01.txt");
+        loadMap("/assets/maps/worldV2.txt");
     }
 
     private BufferedImage loadImage(String path) throws IOException {
@@ -47,48 +47,40 @@ public class TileManager {
         setup(7, "grass00", false);
         setup(8, "grass00", false);
         setup(9, "grass00", false);
+
+
         setup(10, "grass00", false);
         setup(11, "grass01", false);
         setup(12, "water00", true);
         setup(13, "water01", true);
-        setup(14, "water01", false);
+        setup(14, "water02", true);
         setup(15, "water03", true);
-        setup(16, "grass00", false);
-        setup(17, "grass00", false);
-        setup(18, "grass00", false);
-        setup(19, "grass00", false);
-        setup(20, "grass00", false);
-        setup(21, "grass00", false);
-        setup(22, "grass00", false);
-        setup(23, "grass00", true);
-        setup(24, "grass00", true);
-        setup(25, "grass00", false);
-        setup(26, "grass00", false);
-        setup(27, "grass00", true);
-        setup(28, "grass00", false);
-        setup(29, "grass00", false);
-        setup(30, "grass00", false);
-        setup(31, "grass00", true);
-        setup(32, "grass00", false);
-        setup(33, "grass00", false);
-        setup(34, "grass00", false);
-        setup(35, "grass00", false);
-        setup(36, "grass00", true);
-        setup(37, "grass00", false);
-        setup(38, "grass00", false);
-        setup(39, "grass00", true);
-        setup(40, "grass00", false);
-        setup(41, "grass00", false);
-        setup(42, "grass00", true);
-        setup(43, "grass00", false);
-        setup(44, "grass00", false);
-        setup(45, "grass00", false);
-        setup(46, "grass00", false);
-        setup(47, "grass00", true);
-        setup(48, "grass00", false);
-        setup(49, "grass00", false);
-        setup(50, "grass00", false);
-        setup(51, "grass00", false);
+        setup(16, "water04", true);
+        setup(17, "water05", true);
+        setup(18, "water06", true);
+        setup(19, "water07", true);
+        setup(20, "water08", true);
+        setup(21, "water09", true);
+        setup(22, "water10", true);
+        setup(23, "water11", true);
+        setup(24, "water12", true);
+        setup(25, "water13", true);
+        setup(26, "road00", false);
+        setup(27, "road01", false);
+        setup(28, "road02", false);
+        setup(29, "road03", false);
+        setup(30, "road04", false);
+        setup(31, "road05", false);
+        setup(32, "road06", false);
+        setup(33, "road07", false);
+        setup(34, "road08", false);
+        setup(35, "road09", false);
+        setup(36, "road10", false);
+        setup(37, "road11", false);
+        setup(38, "road12", false);
+        setup(39, "earth", false);
+        setup(40, "wall", true);
+        setup(41, "tree", true);
 
     }
     public void setup(int index, String imagePath, boolean collision) {

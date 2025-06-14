@@ -11,14 +11,15 @@ import java.io.IOException;
 
 public class Player extends Entity {
 
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
-    public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
+
+        super(gp);
+        
         this.gp = gp;
         this.keyH = keyH;
 
@@ -45,30 +46,15 @@ public class Player extends Entity {
         kbDirection = "down";
     }
 
-    private BufferedImage loadImage(String path){
-
-        Utility util = new Utility();
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/assets/player/" + path +".png"));
-            image = util.scaledImage(image, gp.tileSize, gp.tileSize);
-
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
-
     public void getPlayerImage() {
-        up1 = loadImage("boy_up_1");
-        up2 = loadImage("boy_up_2");
-        down1 = loadImage("boy_down_1");
-        down2 = loadImage("boy_down_2");
-        left1 = loadImage("boy_left_1");
-        left2 = loadImage("boy_left_2");
-        right1 = loadImage("boy_right_1");
-        right2 = loadImage("boy_right_2");
+        up1 = loadImage("/player/boy_up_1");
+        up2 = loadImage("/player/boy_up_2");
+        down1 = loadImage("/player/boy_down_1");
+        down2 = loadImage("/player/boy_down_2");
+        left1 = loadImage("/player/boy_left_1");
+        left2 = loadImage("/player/boy_left_2");
+        right1 = loadImage("/player/boy_right_1");
+        right2 = loadImage("/player/boy_right_2");
     }
 
     public void update() {
@@ -119,6 +105,7 @@ public class Player extends Entity {
         // Check horizontal collision and move if no collision
         collisionOn = false;
         gp.cChk.checkTile(this, moveX, 0);
+        gp.cChk.checkEntity(this, gp.npc);
         int objIndexX = gp.cChk.checkObject(this, true, moveX, 0);
         pickUpObj(objIndexX);
 
@@ -131,6 +118,7 @@ public class Player extends Entity {
         gp.cChk.checkTile(this, 0, moveY);
         int objIndexY = gp.cChk.checkObject(this, true, 0, moveY);
         pickUpObj(objIndexY);
+        int npcIndex = gp.cChk.checkEntity(this, gp.npc);
 
         if (!collisionOn) {
             worldy += moveY;
@@ -153,37 +141,6 @@ public class Player extends Entity {
 
         if (i != 999) {
 
-            String objName = gp.obj[i].name;
-
-            switch (objName) {
-                case "Key":
-                    gp.playSE(1);
-                    hasKey++;
-                    gp.obj[i] = null;
-                    gp.gui.showmsg("Got key!");
-                    break;
-                case "Door":
-                    if (hasKey > 0) {
-                        gp.playSE(3);
-                        gp.obj[i] = null;
-                        hasKey--;
-                        gp.gui.showmsg("Door opened!");
-                    }else {
-                        gp.gui.showmsg("Need a Key!");
-                    }
-                    break;
-                case "Boots":
-                    gp.playSE(2);
-                    speed += 2;
-                    gp.obj[i] = null;
-                    gp.gui.showmsg("Speed lover huh?");
-                    break;
-                case "Chest":
-                    gp.gui.gameFinished = true;
-                    gp.stopMusic();
-                    gp.playSE(4);
-                    break;
-            }
         }
     }
 
@@ -220,6 +177,14 @@ public class Player extends Entity {
                 }
                 break;
         }
+
+        if (GamePanel.debug) {
+            if (gp.debugging) {
+                g2.setColor(Color.RED);
+                g2.drawRect(screenX + solidHitbox.x, screenY + solidHitbox.y, solidHitbox.width, solidHitbox.height);
+            }
+        }
+
         g2.drawImage(image, screenX, screenY, null);
     }
 }
